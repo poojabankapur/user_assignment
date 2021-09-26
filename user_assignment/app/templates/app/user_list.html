@@ -1,0 +1,54 @@
+{% if request.user.is_authenticated%}
+    <p>{{ request.user }}</p>
+    <a href="{% url 'logout' %}">Logout</a>
+
+<hr>
+<h1>Users CRUD Operation</h1>
+<a href="{% url 'user-create' %}">Create User</a>
+
+<table>
+    <tr>
+        <th>Users</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    {% for user in users %}
+     <tr>
+         <td>{{ user.first_name }}</td>
+        <td><a href="{% url 'user' user.id %}">View</a></td>
+        <td><a href="{% url 'user-update' user.id %}">Update</a></td>
+     </tr>
+     {% empty %}
+     <h3>No Users</h3>
+    {% endfor %}
+</table>
+
+
+{% else %}
+    <h1>Please Create User and Login to View, Update and delete your profile</h1>
+
+    <form method="POST" action="{% url 'user-create'%}">
+        {% csrf_token %}
+        <input type="submit" value="Create User">
+    </form>
+
+    <form method="POST" action="{% url 'login'%}">
+        {% csrf_token %}
+        <input type="submit" value="Login">
+    </form>
+
+
+    <table>
+    <tr>
+        <th>List of available Users</th>
+    </tr>
+    {% for user in users %}
+     <tr>
+         <td>{{ user.first_name }}</td>
+     </tr>
+     {% empty %}
+     <h3>No Users</h3>
+    {% endfor %}
+</table>
+{% endif %}

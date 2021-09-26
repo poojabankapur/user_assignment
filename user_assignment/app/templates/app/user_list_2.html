@@ -1,0 +1,30 @@
+{% if request.user.is_authenticated%}
+    <p>Logged in as : {{ request.user }}</p>
+    <a href="{% url 'logout' %}">Logout</a>
+{% else %}
+    <a href="{% url 'login' %}">Login</a>
+{% endif %}
+
+
+<hr>
+<h1>Users CRUD Operation</h1>
+<a href="{% url 'user-create' %}">Add User</a>
+
+<table>
+    <tr>
+        <th>User First Name</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    {% for user in users %}
+     <tr>
+        <td>{{ user.first_name }}</td>
+        <td><a href="{% url 'user' user.id %}">View</a></td>
+        <td><a href="{% url 'user-update' user.id %}">Update</a></td>
+        <td><a href="{% url 'user-delete' user.id %}">Delete</a></td>
+     </tr>
+     {% empty %}
+     <h3>No Users</h3>
+    {% endfor %}
+</table>
